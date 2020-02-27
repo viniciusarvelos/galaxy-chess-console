@@ -18,5 +18,11 @@
             return Pieces[line, column];
         }
 
+        public void PlacePiece(Piece p, Position pos) // place pieces on board in the designated position
+        {
+            Pieces[pos.Line, pos.Column] = p;
+            p.Position = pos;
+        }
+
     }
 }

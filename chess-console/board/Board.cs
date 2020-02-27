@@ -13,6 +13,10 @@
             Pieces = new Piece[Lines, Columns];
         }
 
+        public Piece Piece(int line, int column) // method used to access the piece on the designated line and column
+        {
+            return Pieces[line, column];
+        }
 
     }
 }

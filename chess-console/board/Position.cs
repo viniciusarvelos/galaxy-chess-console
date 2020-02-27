@@ -1,5 +1,4 @@
-﻿
-namespace Board
+﻿namespace Chess_Board
 {
     class Position
         // Each piece have a line and column = position on the board

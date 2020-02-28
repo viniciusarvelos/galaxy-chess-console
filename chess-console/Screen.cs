@@ -17,11 +17,14 @@ namespace Chess_Console
                 {
                     if (board.Piece(i, j) == null) // check if there is a piece on the position and print
                     {
-                        Console.Write("[   ]"); // blank tiles
+                        ConsoleColor aux = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write($"[   ]"); // print blank pieces
+                        Console.ForegroundColor = aux;
                     }
                     else
                     {
-                        Console.Write($"[ {board.Piece(i, j)} ]"); // pieces
+                        PrintPiece(board.Piece(i, j)); // pieces
                     }
                 }
                 Console.WriteLine();
@@ -29,6 +32,21 @@ namespace Chess_Console
             }
             Console.WriteLine("        A    B    C    D    E    F    G    H "); // columns
             Console.WriteLine();
+        }
+
+        public static void PrintPiece(Piece piece)
+        {
+            if (piece.Color == Color.White)
+            {
+                Console.Write($"[ {piece} ]"); // print white pieces
+            }
+            else
+            {
+                ConsoleColor aux = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write($"[ {piece} ]"); // print black pieces
+                Console.ForegroundColor = aux;
+            }
         }
     }
 }

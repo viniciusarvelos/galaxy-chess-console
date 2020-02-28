@@ -17,7 +17,7 @@ namespace Chess_Console
                 {
                     if (board.Piece(i, j) == null) // check if there is a piece on the position and print
                     {
-                        Console.Write("  -  "); // blank tiles
+                        Console.Write("[   ]"); // blank tiles
                     }
                     else
                     {
@@ -27,7 +27,7 @@ namespace Chess_Console
                 Console.WriteLine();
                 Console.WriteLine();
             }
-            Console.WriteLine($"        A    B    C    D    E    F    G    H "); // columns
+            Console.WriteLine("        A    B    C    D    E    F    G    H "); // columns
             Console.WriteLine();
         }
     }

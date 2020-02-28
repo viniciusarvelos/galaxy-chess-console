@@ -39,6 +39,17 @@
             p.Position = pos;
         }
 
+        public Piece RemovePiece(Position pos) // method to remove a piece from the board
+        {
+            if (Piece(pos) == null) { // if the position is empty return nothing
+                return null;
+            }
+            Piece aux = Piece(pos);
+            aux.Position = null; // assign a null position
+            Pieces[pos.Line, pos.Column] = null; // remove from the board
+            return aux; // return removed piece
+        }
+
         public bool ValidPosition(Position pos) // method to test if the position is valid
         {
             if (pos.Line < 0 || pos.Line >= Lines || pos.Column < 0 || pos.Column >= Columns)

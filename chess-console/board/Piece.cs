@@ -20,6 +20,27 @@
             Moves++;
         }
 
+        public bool PossibleMovesAllowed() // checks if exists any possible values on the array
+        {
+            bool[,] mat = PossibleMoves();
+            for (int i = 0; i < Board.Lines; i++)
+            {
+                for (int j = 0; j < Board.Columns; j++)
+                {
+                    if (mat[i, j] == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool CanMoveTo(Position pos) // determines if this piece can move to postion
+        {
+            return PossibleMoves()[pos.Line, pos.Column];
+        }
+
         public abstract bool[,] PossibleMoves(); // generic method to be implemented on each piece
     }
 }

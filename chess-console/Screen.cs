@@ -77,7 +77,7 @@ namespace Chess_Console
             }
             else
             {
-                if (piece.Color == Color.White)
+                if (piece.Color == Color.Red)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write($"[{piece}]"); // print white pieces

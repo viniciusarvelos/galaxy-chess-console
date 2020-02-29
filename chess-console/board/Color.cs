@@ -2,7 +2,7 @@
 {
     enum Color
     {
-        White,
-        Black
+        Red,
+        Blue
     }
 }

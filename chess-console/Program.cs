@@ -14,21 +14,60 @@ namespace Chess_Console
 
                 while (!match.Finished)
                 {
-                    Console.Clear();
-                    Screen.PrintBoard(match.Board);
+                    try
+                    {
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board);
 
-                    Console.Write("Origin: ");
-                    Position origin = Screen.ReadChessPosition().ToPosition();
+                        Console.WriteLine($"Turn: {match.Turn}");
+                        Console.Write("Player: ");
+                        if (match.CurrentPlayer == Color.Red)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"{match.CurrentPlayer}");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine($"{match.CurrentPlayer}");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
 
-                    bool[,] possiblePositions = match.Board.Piece(origin).PossibleMoves();
+                        Console.Write("Origin: ");
+                        Position origin = Screen.ReadChessPosition().ToPosition();
+                        match.ValidateOriginPosition(origin);
 
-                    Console.Clear();
-                    Screen.PrintBoard(match.Board, possiblePositions);
+                        bool[,] possiblePositions = match.Board.Piece(origin).PossibleMoves();
 
-                    Console.Write("Destination: ");
-                    Position destination = Screen.ReadChessPosition().ToPosition();
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board, possiblePositions);
 
-                    match.ExecuteMove(origin, destination);
+                        Console.WriteLine($"Turn: {match.Turn}");
+                        Console.Write("Player: ");
+                        if (match.CurrentPlayer == Color.Red)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"{match.CurrentPlayer}");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine($"{match.CurrentPlayer}");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        Console.Write("Destination: ");
+                        Position destination = Screen.ReadChessPosition().ToPosition();
+                        match.ValidateDestinationPosition(origin, destination);
+
+                        match.TurnPlay(origin, destination);
+                    }
+                    catch (BoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
                 
             }

@@ -1,6 +1,6 @@
 ﻿namespace Chess_Board
 {
-    class Piece
+    abstract class Piece // class was convert to abstract because of the abstract method
     {
         public Position Position { get; set; } // int (X, Y)
         public Color Color { get; protected set; } // color of the piece (black or white)
@@ -20,5 +20,6 @@
             Moves++;
         }
 
+        public abstract bool[,] PossibleMoves(); // generic method to be implemented on each piece
     }
 }

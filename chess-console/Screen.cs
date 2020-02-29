@@ -9,28 +9,53 @@ namespace Chess_Console
         public static void PrintBoard(Board board)
         {
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("   CONSOLE CHESS"); // game title
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             for (int i = 0; i < board.Lines; i++)
             {
-                Console.Write($"   {8 - i}  "); // lines reference
+                Console.Write($" {8 - i}  "); // lines reference
                 for (int j = 0; j < board.Columns; j++)
                 {
-                    if (board.Piece(i, j) == null) // check if there is a piece on the position and print
+                    PrintPiece(board.Piece(i, j)); // print pieces
+                    
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            Console.WriteLine("     A  B  C  D  E  F  G  H "); // columns reference
+            Console.WriteLine();
+        }
+
+        public static void PrintBoard(Board board, bool[,] possiblePositions) // overcharge to show possible positions
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("   CONSOLE CHESS"); // game title
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
+            for (int i = 0; i < board.Lines; i++)
+            {
+                Console.Write($" {8 - i}  "); // lines reference
+                for (int j = 0; j < board.Columns; j++)
+                {
+                    if (possiblePositions[i, j])
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.Write($"[   ]"); // print blank pieces
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.BackgroundColor = ConsoleColor.Gray;
                     }
                     else
                     {
-                        PrintPiece(board.Piece(i, j)); // pieces
+                        Console.BackgroundColor = ConsoleColor.Black;
                     }
+                    PrintPiece(board.Piece(i, j)); // print pieces
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
                 Console.WriteLine();
-                Console.WriteLine();
             }
-            Console.WriteLine("        A    B    C    D    E    F    G    H "); // columns reference
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine();
+            Console.WriteLine("     A  B  C  D  E  F  G  H "); // columns reference
             Console.WriteLine();
         }
 
@@ -44,17 +69,26 @@ namespace Chess_Console
 
         public static void PrintPiece(Piece piece) // prints the piece on the specified color
         {
-            if (piece.Color == Color.White)
+            if (piece == null)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write($"[ {piece} ]"); // print white pieces
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write($"[ ]"); // print blank pieces
                 Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write($"[ {piece} ]"); // print black pieces
-                Console.ForegroundColor = ConsoleColor.White;
+                if (piece.Color == Color.White)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"[{piece}]"); // print white pieces
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write($"[{piece}]"); // print black pieces
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
             }
         }
     }

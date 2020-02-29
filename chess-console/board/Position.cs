@@ -12,6 +12,12 @@
             Column = column;
         }
 
+        public void DefineValues(int line, int column) // method to define position values
+        {
+            Line = line;
+            Column = column;
+        }
+
         public override string ToString()
         {
             return $"{Line}, {Column}";

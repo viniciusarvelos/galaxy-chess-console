@@ -68,8 +68,16 @@ namespace Chess_Game
             {
                 Check = false;
             }
-            Turn++;
-            ChangePlayer();
+
+            if (CheckmateTest(Adversary(CurrentPlayer)))
+            {
+                Finished = true;
+            }
+            else
+            {
+                Turn++;
+                ChangePlayer();
+            }
         }
 
         public void ValidateOriginPosition(Position pos) // method used to check if the origin position is valid
@@ -89,7 +97,7 @@ namespace Chess_Game
         }
 
         public void ValidateDestinationPosition(Position origin, Position destination) // method used to check if the destination position is valid
-        { 
+        {
             if (!Board.Piece(origin).CanMoveTo(destination))
             {
                 throw new BoardException("Invalid destination position!");
@@ -177,6 +185,37 @@ namespace Chess_Game
             return false;
         }
 
+        public bool CheckmateTest(Color color) // test checkmate
+        {
+            if (!InCheck(color))
+            {
+                return false;
+            }
+            foreach (Piece x in PiecesInPlay(color))
+            {
+                bool[,] mat = x.PossibleMoves();
+                for (int i = 0; i < Board.Lines; i++)
+                {
+                    for (int j = 0; j < Board.Columns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position origin = x.Position;
+                            Position destination = new Position(i, j);
+                            Piece capturedPiece = ExecuteMove(origin, destination);
+                            bool checkTest = InCheck(color);
+                            UndoMove(origin, destination, capturedPiece);
+                            if (!checkTest)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         public void PlaceNewPiece(char column, int line, Piece piece) // method to easy the placement of the initial pieces
         {
             Board.PlacePiece(piece, new ChessPosition(column, line).ToPosition());
@@ -186,18 +225,11 @@ namespace Chess_Game
         private void PlacePieces() // method to place initial pieces
         {
             PlaceNewPiece('c', 1, new Rook(Board, Color.Red));
-            PlaceNewPiece('c', 2, new Rook(Board, Color.Red));
-            PlaceNewPiece('d', 2, new Rook(Board, Color.Red));
-            PlaceNewPiece('e', 2, new Rook(Board, Color.Red));
-            PlaceNewPiece('e', 1, new Rook(Board, Color.Red));
             PlaceNewPiece('d', 1, new King(Board, Color.Red));
+            PlaceNewPiece('h', 7, new Rook(Board, Color.Red));
 
-            PlaceNewPiece('c', 7, new Rook(Board, Color.Blue));
-            PlaceNewPiece('c', 8, new Rook(Board, Color.Blue));
-            PlaceNewPiece('d', 7, new Rook(Board, Color.Blue));
-            PlaceNewPiece('e', 7, new Rook(Board, Color.Blue));
-            PlaceNewPiece('e', 8, new Rook(Board, Color.Blue));
-            PlaceNewPiece('d', 8, new King(Board, Color.Blue));
+            PlaceNewPiece('b', 8, new Rook(Board, Color.Blue));
+            PlaceNewPiece('a', 8, new King(Board, Color.Blue));
         }
     }
 }

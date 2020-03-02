@@ -14,22 +14,43 @@ namespace Chess_Console
             PrintCapturedPieces(match);
             Console.WriteLine();
             Console.WriteLine($"Turn: {match.Turn}");
-            Console.Write("Player: ");
-            if (match.CurrentPlayer == Color.Red)
+            if (!match.Finished)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{match.CurrentPlayer}");
-                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.Write("Player: ");
+                if (match.CurrentPlayer == Color.Red)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{match.CurrentPlayer}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"{match.CurrentPlayer}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                if (match.Check)
+                {
+                    Console.WriteLine("CHECK!");
+                }
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"{match.CurrentPlayer}");
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            if (match.Check)
-            {
-                Console.WriteLine("CHECK!");
+                Console.WriteLine("CHECKMATE!");
+                Console.Write("Winner: ");
+                if (match.CurrentPlayer == Color.Red)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{match.CurrentPlayer}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"{match.CurrentPlayer}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
             }
         }
 

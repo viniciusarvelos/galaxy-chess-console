@@ -18,7 +18,7 @@ namespace Chess_Game
         {
             Board = new Board(8, 8);
             Turn = 1;
-            CurrentPlayer = Color.Red;
+            CurrentPlayer = Color.Rebel;
             Finished = false;
             Check = false;
             Pieces = new HashSet<Piece>();
@@ -98,7 +98,7 @@ namespace Chess_Game
 
         public void ValidateDestinationPosition(Position origin, Position destination) // method used to check if the destination position is valid
         {
-            if (!Board.Piece(origin).CanMoveTo(destination))
+            if (!Board.Piece(origin).PossibleMove(destination))
             {
                 throw new BoardException("Invalid destination position!");
             }
@@ -106,13 +106,13 @@ namespace Chess_Game
 
         private void ChangePlayer()
         {
-            if (CurrentPlayer == Color.Red)
+            if (CurrentPlayer == Color.Empire)
             {
-                CurrentPlayer = Color.Blue;
+                CurrentPlayer = Color.Rebel;
             }
             else
             {
-                CurrentPlayer = Color.Red;
+                CurrentPlayer = Color.Empire;
             }
         }
 
@@ -145,13 +145,13 @@ namespace Chess_Game
 
         private Color Adversary(Color color) // method to determine which color is the adversary
         {
-            if (color == Color.Red)
+            if (color == Color.Empire)
             {
-                return Color.Blue;
+                return Color.Rebel;
             }
             else
             {
-                return Color.Red;
+                return Color.Empire;
             }
         }
 
@@ -224,12 +224,12 @@ namespace Chess_Game
 
         private void PlacePieces() // method to place initial pieces
         {
-            PlaceNewPiece('c', 1, new Rook(Board, Color.Red));
-            PlaceNewPiece('d', 1, new King(Board, Color.Red));
-            PlaceNewPiece('h', 7, new Rook(Board, Color.Red));
+            PlaceNewPiece('c', 1, new Rook(Board, Color.Empire));
+            PlaceNewPiece('d', 1, new King(Board, Color.Empire));
+            PlaceNewPiece('h', 7, new Rook(Board, Color.Empire));
 
-            PlaceNewPiece('b', 8, new Rook(Board, Color.Blue));
-            PlaceNewPiece('a', 8, new King(Board, Color.Blue));
+            PlaceNewPiece('b', 8, new Rook(Board, Color.Rebel));
+            PlaceNewPiece('a', 8, new King(Board, Color.Rebel));
         }
     }
 }

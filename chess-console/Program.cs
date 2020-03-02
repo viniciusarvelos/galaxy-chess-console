@@ -30,7 +30,7 @@ namespace Chess_Console
 
                         Console.WriteLine($"Turn: {match.Turn}");
                         Console.Write("Player: ");
-                        if (match.CurrentPlayer == Color.Red)
+                        if (match.CurrentPlayer == Color.Empire)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine($"{match.CurrentPlayer}");

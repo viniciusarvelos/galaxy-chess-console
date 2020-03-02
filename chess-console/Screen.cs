@@ -18,7 +18,7 @@ namespace Chess_Console
             {
 
                 Console.Write("Player: ");
-                if (match.CurrentPlayer == Color.Red)
+                if (match.CurrentPlayer == Color.Empire)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"{match.CurrentPlayer}");
@@ -39,7 +39,7 @@ namespace Chess_Console
             {
                 Console.WriteLine("CHECKMATE!");
                 Console.Write("Winner: ");
-                if (match.CurrentPlayer == Color.Red)
+                if (match.CurrentPlayer == Color.Empire)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"{match.CurrentPlayer}");
@@ -58,11 +58,11 @@ namespace Chess_Console
         {
             Console.WriteLine("Captured pieces:");
             Console.ForegroundColor = ConsoleColor.Red;
-            PrintHashSet(match.CapturedPieces(Color.Red));
+            PrintHashSet(match.CapturedPieces(Color.Empire));
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Blue;
-            PrintHashSet(match.CapturedPieces(Color.Blue));
+            PrintHashSet(match.CapturedPieces(Color.Rebel));
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
         }
@@ -79,7 +79,7 @@ namespace Chess_Console
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("   CONSOLE CHESS"); // game title
+            Console.WriteLine("   GALAXY CONSOLE CHESS"); // game title
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             for (int i = 0; i < board.Lines; i++)
@@ -100,7 +100,7 @@ namespace Chess_Console
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("   CONSOLE CHESS"); // game title
+            Console.WriteLine("   GALAXY CONSOLE CHESS"); // game title
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             for (int i = 0; i < board.Lines; i++)
@@ -144,7 +144,7 @@ namespace Chess_Console
             }
             else
             {
-                if (piece.Color == Color.Red)
+                if (piece.Color == Color.Empire)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write($"[{piece}]"); // print white pieces

@@ -41,7 +41,7 @@
             return false;
         }
 
-        public bool CanMoveTo(Position pos) // determines if this piece can move to postion
+        public bool PossibleMove(Position pos) // determines if this piece can move to postion
         {
             return PossibleMoves()[pos.Line, pos.Column];
         }

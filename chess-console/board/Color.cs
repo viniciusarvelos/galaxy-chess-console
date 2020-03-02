@@ -2,7 +2,7 @@
 {
     enum Color
     {
-        Red,
-        Blue
+        Empire,
+        Rebel
     }
 }

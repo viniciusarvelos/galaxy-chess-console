@@ -17,22 +17,7 @@ namespace Chess_Console
                     try
                     {
                         Console.Clear();
-                        Screen.PrintBoard(match.Board);
-
-                        Console.WriteLine($"Turn: {match.Turn}");
-                        Console.Write("Player: ");
-                        if (match.CurrentPlayer == Color.Red)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"{match.CurrentPlayer}");
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine($"{match.CurrentPlayer}");
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
+                        Screen.PrintMatch(match);
 
                         Console.Write("Origin: ");
                         Position origin = Screen.ReadChessPosition().ToPosition();

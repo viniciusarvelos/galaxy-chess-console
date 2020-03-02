@@ -1,11 +1,65 @@
 ﻿using System;
 using Chess_Board;
 using Chess_Game;
+using System.Collections.Generic;
 
 namespace Chess_Console
 {
     class Screen
     {
+        public static void PrintMatch(ChessMatch match) // method to print match
+        {
+            PrintBoard(match.Board);
+            Console.WriteLine();
+            PrintCapturedPieces(match);
+            Console.WriteLine();
+            Console.WriteLine($"Turn: {match.Turn}");
+            Console.Write("Player: ");
+            if (match.CurrentPlayer == Color.Red)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{match.CurrentPlayer}");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"{match.CurrentPlayer}");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        }
+
+        public static void PrintCapturedPieces(ChessMatch match) // method to print captured pieces
+        {
+            Console.WriteLine("Captured pieces:");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Red: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("[ ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            PrintHashSet(match.CapturedPieces(Color.Red));
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("]");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("Blue: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("[ ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            PrintHashSet(match.CapturedPieces(Color.Blue));
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("]");
+            Console.WriteLine();
+        }
+
+        public static void PrintHashSet(HashSet<Piece> set) // print the hashset
+        {
+            foreach (Piece x in set)
+            {
+                Console.Write($"{x} ");
+            }
+        }
+
         public static void PrintBoard(Board board)
         {
             Console.WriteLine();
@@ -25,7 +79,6 @@ namespace Chess_Console
             }
             Console.WriteLine();
             Console.WriteLine("     A  B  C  D  E  F  G  H "); // columns reference
-            Console.WriteLine();
         }
 
         public static void PrintBoard(Board board, bool[,] possiblePositions) // overcharge to show possible positions
@@ -56,7 +109,6 @@ namespace Chess_Console
             Console.BackgroundColor = ConsoleColor.Black;
             Console.WriteLine();
             Console.WriteLine("     A  B  C  D  E  F  G  H "); // columns reference
-            Console.WriteLine();
         }
 
         public static ChessPosition ReadChessPosition() // reads the user input and converts to a postion on the board

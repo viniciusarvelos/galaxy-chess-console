@@ -12,6 +12,7 @@ namespace Chess_Game
         public bool Finished { get; private set; }
         private HashSet<Piece> Pieces;
         private HashSet<Piece> Captured;
+        public bool Check { get; private set; }
 
         public ChessMatch()
         {
@@ -19,12 +20,13 @@ namespace Chess_Game
             Turn = 1;
             CurrentPlayer = Color.Red;
             Finished = false;
+            Check = false;
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
             PlacePieces();
         }
 
-        public void ExecuteMove(Position origin, Position destination) // method used to capture a piece
+        public Piece ExecuteMove(Position origin, Position destination) // method used to capture a piece
         {
             Piece p = Board.RemovePiece(origin);
             p.IncreaseMoveQuantity();
@@ -34,11 +36,38 @@ namespace Chess_Game
             {
                 Captured.Add(capturedPiece);
             }
+            return capturedPiece;
+        }
+
+        public void UndoMove(Position origin, Position destination, Piece capturedPiece) // undo move
+        {
+            Piece p = Board.RemovePiece(destination);
+            p.DecreaseMoveQuantity();
+            if (capturedPiece != null)
+            {
+                Board.PlacePiece(capturedPiece, destination);
+                Captured.Remove(capturedPiece);
+            }
+            Board.PlacePiece(p, origin);
         }
 
         public void TurnPlay(Position origin, Position destination) // execute move and pass turn
         {
-            ExecuteMove(origin, destination);
+            Piece capturedPiece = ExecuteMove(origin, destination);
+
+            if (InCheck(CurrentPlayer))
+            {
+                UndoMove(origin, destination, capturedPiece);
+                throw new BoardException("You can't put yourself in check!");
+            }
+            if (InCheck(Adversary(CurrentPlayer)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
             Turn++;
             ChangePlayer();
         }
@@ -95,7 +124,7 @@ namespace Chess_Game
         public HashSet<Piece> PiecesInPlay(Color color) // retuns all pieces in play of the designed color
         {
             HashSet<Piece> aux = new HashSet<Piece>();
-            foreach (Piece x in Captured)
+            foreach (Piece x in Pieces)
             {
                 if (x.Color == color)
                 {
@@ -104,6 +133,48 @@ namespace Chess_Game
             }
             aux.ExceptWith(CapturedPieces(color));
             return aux;
+        }
+
+        private Color Adversary(Color color) // method to determine which color is the adversary
+        {
+            if (color == Color.Red)
+            {
+                return Color.Blue;
+            }
+            else
+            {
+                return Color.Red;
+            }
+        }
+
+        private Piece King(Color color)
+        {
+            foreach (Piece x in PiecesInPlay(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool InCheck(Color color) // tests if the king is in check
+        {
+            Piece k = King(color);
+            if (k == null)
+            {
+                throw new BoardException($"There is no {color} King in the board!");
+            }
+            foreach (Piece x in PiecesInPlay(Adversary(color)))
+            {
+                bool[,] mat = x.PossibleMoves();
+                if (mat[k.Position.Line, k.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void PlaceNewPiece(char column, int line, Piece piece) // method to easy the placement of the initial pieces

@@ -27,28 +27,22 @@ namespace Chess_Console
                 Console.WriteLine($"{match.CurrentPlayer}");
                 Console.ForegroundColor = ConsoleColor.White;
             }
+            if (match.Check)
+            {
+                Console.WriteLine("CHECK!");
+            }
         }
 
         public static void PrintCapturedPieces(ChessMatch match) // method to print captured pieces
         {
             Console.WriteLine("Captured pieces:");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Red: ");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("[ ");
-            Console.ForegroundColor = ConsoleColor.Red;
             PrintHashSet(match.CapturedPieces(Color.Red));
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("]");
             Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("Blue: ");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("[ ");
             Console.ForegroundColor = ConsoleColor.Blue;
             PrintHashSet(match.CapturedPieces(Color.Blue));
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("]");
             Console.WriteLine();
         }
 
@@ -56,7 +50,7 @@ namespace Chess_Console
         {
             foreach (Piece x in set)
             {
-                Console.Write($"{x} ");
+                Console.Write($"[{x}]");
             }
         }
 

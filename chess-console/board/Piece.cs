@@ -20,6 +20,11 @@
             Moves++;
         }
 
+        public void DecreaseMoveQuantity() // decrease moviment to 0 to undo play
+        {
+            Moves--;
+        }
+
         public bool PossibleMovesAllowed() // checks if exists any possible values on the array
         {
             bool[,] mat = PossibleMoves();

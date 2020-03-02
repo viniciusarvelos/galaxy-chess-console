@@ -224,12 +224,41 @@ namespace Chess_Game
 
         private void PlacePieces() // method to place initial pieces
         {
-            PlaceNewPiece('c', 1, new Rook(Board, Color.Empire));
-            PlaceNewPiece('d', 1, new King(Board, Color.Empire));
-            PlaceNewPiece('h', 7, new Rook(Board, Color.Empire));
+            PlaceNewPiece('a', 1, new Rook(Board, Color.Rebel));
+            PlaceNewPiece('b', 1, new Knight(Board, Color.Rebel));
+            PlaceNewPiece('c', 1, new Bishop(Board, Color.Rebel));
+            PlaceNewPiece('d', 1, new Queen(Board, Color.Rebel));
+            PlaceNewPiece('e', 1, new King(Board, Color.Rebel));
+            PlaceNewPiece('f', 1, new Bishop(Board, Color.Rebel));
+            PlaceNewPiece('g', 1, new Knight(Board, Color.Rebel));
+            PlaceNewPiece('h', 1, new Rook(Board, Color.Rebel));
 
-            PlaceNewPiece('b', 8, new Rook(Board, Color.Rebel));
-            PlaceNewPiece('a', 8, new King(Board, Color.Rebel));
+            PlaceNewPiece('a', 2, new Peon(Board, Color.Rebel));
+            PlaceNewPiece('b', 2, new Peon(Board, Color.Rebel));
+            PlaceNewPiece('c', 2, new Peon(Board, Color.Rebel));
+            PlaceNewPiece('d', 2, new Peon(Board, Color.Rebel));
+            PlaceNewPiece('e', 2, new Peon(Board, Color.Rebel));
+            PlaceNewPiece('f', 2, new Peon(Board, Color.Rebel));
+            PlaceNewPiece('g', 2, new Peon(Board, Color.Rebel));
+            PlaceNewPiece('h', 2, new Peon(Board, Color.Rebel));
+
+            PlaceNewPiece('a', 8, new Rook(Board, Color.Empire));
+            PlaceNewPiece('b', 8, new Knight(Board, Color.Empire));
+            PlaceNewPiece('c', 8, new Bishop(Board, Color.Empire));
+            PlaceNewPiece('d', 8, new Queen(Board, Color.Empire));
+            PlaceNewPiece('e', 8, new King(Board, Color.Empire));
+            PlaceNewPiece('f', 8, new Bishop(Board, Color.Empire));
+            PlaceNewPiece('g', 8, new Knight(Board, Color.Empire));
+            PlaceNewPiece('h', 8, new Rook(Board, Color.Empire));
+
+            PlaceNewPiece('a', 7, new Peon(Board, Color.Empire));
+            PlaceNewPiece('b', 7, new Peon(Board, Color.Empire));
+            PlaceNewPiece('c', 7, new Peon(Board, Color.Empire));
+            PlaceNewPiece('d', 7, new Peon(Board, Color.Empire));
+            PlaceNewPiece('e', 7, new Peon(Board, Color.Empire));
+            PlaceNewPiece('f', 7, new Peon(Board, Color.Empire));
+            PlaceNewPiece('g', 7, new Peon(Board, Color.Empire));
+            PlaceNewPiece('h', 7, new Peon(Board, Color.Empire));
         }
     }
 }

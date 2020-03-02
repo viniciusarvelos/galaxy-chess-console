@@ -2,13 +2,13 @@
 
 namespace Chess_Game
 {
-    class Rook : Piece
+    class Bishop : Piece
     {
-        public Rook(Board board, Color color) : base(color, board) { }
+        public Bishop(Board board, Color color) : base(color, board) { }
 
         public override string ToString()
         {
-            return "R";
+            return "B";
         }
 
         private bool CanMove(Position pos) // test if the position is clear or is there is a enemy piece
@@ -17,13 +17,13 @@ namespace Chess_Game
             return p == null || p.Color != Color;
         }
 
-        public override bool[,] PossibleMoves() // possible moves of Rook piece
+        public override bool[,] PossibleMoves() // possible moves of Bishop piece
         {
             bool[,] mat = new bool[Board.Lines, Board.Columns];
             Position pos = new Position(0, 0);
 
-            // N
-            pos.DefineValues(Position.Line - 1, Position.Column);
+            // NW
+            pos.DefineValues(Position.Line - 1, Position.Column - 1);
             while (Board.ValidPosition(pos) && CanMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -31,11 +31,11 @@ namespace Chess_Game
                 {
                     break;
                 }
-                pos.DefineValues(pos.Line - 1, pos.Column);
+                pos.DefineValues(pos.Line - 1, pos.Column - 1);
             }
 
-            // S
-            pos.DefineValues(Position.Line + 1, Position.Column);
+            // NE
+            pos.DefineValues(Position.Line - 1, Position.Column + 1);
             while (Board.ValidPosition(pos) && CanMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -43,11 +43,11 @@ namespace Chess_Game
                 {
                     break;
                 }
-                pos.DefineValues(pos.Line + 1, pos.Column);
+                pos.DefineValues(pos.Line - 1, pos.Column + 1);
             }
 
-            // E
-            pos.DefineValues(Position.Line, Position.Column + 1);
+            // SW
+            pos.DefineValues(Position.Line + 1, Position.Column - 1);
             while (Board.ValidPosition(pos) && CanMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -55,11 +55,11 @@ namespace Chess_Game
                 {
                     break;
                 }
-                pos.DefineValues(pos.Line, pos.Column + 1);
+                pos.DefineValues(pos.Line + 1, pos.Column - 1);
             }
 
-            // W
-            pos.DefineValues(Position.Line, Position.Column - 1);
+            // SE
+            pos.DefineValues(Position.Line + 1, Position.Column + 1);
             while (Board.ValidPosition(pos) && CanMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -67,7 +67,7 @@ namespace Chess_Game
                 {
                     break;
                 }
-                pos.DefineValues(pos.Line, pos.Column - 1);
+                pos.DefineValues(pos.Line + 1, pos.Column + 1);
             }
 
             return mat;

@@ -2,13 +2,13 @@
 
 namespace Chess_Game
 {
-    class Rook : Piece
+    class Queen : Piece
     {
-        public Rook(Board board, Color color) : base(color, board) { }
+        public Queen(Board board, Color color) : base(color, board) { }
 
         public override string ToString()
         {
-            return "R";
+            return "Q";
         }
 
         private bool CanMove(Position pos) // test if the position is clear or is there is a enemy piece
@@ -17,7 +17,7 @@ namespace Chess_Game
             return p == null || p.Color != Color;
         }
 
-        public override bool[,] PossibleMoves() // possible moves of Rook piece
+        public override bool[,] PossibleMoves() // possible moves of Queen piece
         {
             bool[,] mat = new bool[Board.Lines, Board.Columns];
             Position pos = new Position(0, 0);
@@ -68,6 +68,54 @@ namespace Chess_Game
                     break;
                 }
                 pos.DefineValues(pos.Line, pos.Column - 1);
+            }
+
+            // NW
+            pos.DefineValues(Position.Line - 1, Position.Column - 1);
+            while (Board.ValidPosition(pos) && CanMove(pos))
+            {
+                mat[pos.Line, pos.Column] = true;
+                if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
+                {
+                    break;
+                }
+                pos.DefineValues(pos.Line - 1, pos.Column - 1);
+            }
+
+            // NE
+            pos.DefineValues(Position.Line - 1, Position.Column + 1);
+            while (Board.ValidPosition(pos) && CanMove(pos))
+            {
+                mat[pos.Line, pos.Column] = true;
+                if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
+                {
+                    break;
+                }
+                pos.DefineValues(pos.Line - 1, pos.Column + 1);
+            }
+
+            // SW
+            pos.DefineValues(Position.Line + 1, Position.Column - 1);
+            while (Board.ValidPosition(pos) && CanMove(pos))
+            {
+                mat[pos.Line, pos.Column] = true;
+                if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
+                {
+                    break;
+                }
+                pos.DefineValues(pos.Line + 1, pos.Column - 1);
+            }
+
+            // SE
+            pos.DefineValues(Position.Line + 1, Position.Column + 1);
+            while (Board.ValidPosition(pos) && CanMove(pos))
+            {
+                mat[pos.Line, pos.Column] = true;
+                if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
+                {
+                    break;
+                }
+                pos.DefineValues(pos.Line + 1, pos.Column + 1);
             }
 
             return mat;

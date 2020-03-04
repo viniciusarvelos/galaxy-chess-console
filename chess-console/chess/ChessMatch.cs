@@ -140,6 +140,48 @@ namespace Chess_Game
                 UndoMove(origin, destination, capturedPiece);
                 throw new BoardException("You can't put yourself in check!");
             }
+
+            Piece p = Board.Piece(destination);
+
+            // Special Move - Promotion
+            if (p is Peon)
+            {
+                if ((p.Color == Color.Rebel && destination.Line == 0) || (p.Color == Color.Empire && destination.Line == 7))
+                {
+                    Console.Write("PROMOTION! Select a piece to replace the Peon (Q/H/B/R): ");
+                    char ch = char.Parse(Console.ReadLine());
+                    p = Board.RemovePiece(destination);
+                    Pieces.Remove(p);
+                    if (ch == 'h' || ch == 'H')
+                    {
+                        Piece knight = new Knight(Board, p.Color);
+                        Board.PlacePiece(knight, destination);
+                        Pieces.Add(knight);
+                    }
+                    else if (ch == 'b' || ch == 'B')
+                    {
+                        Piece bishop = new Bishop(Board, p.Color);
+                        Board.PlacePiece(bishop, destination);
+                        Pieces.Add(bishop);
+                    }
+                    else if (ch == 'r' || ch == 'R')
+                    {
+                        Piece rook = new Rook(Board, p.Color);
+                        Board.PlacePiece(rook, destination);
+                        Pieces.Add(rook);
+                    }
+                    else
+                    {
+                        Piece queen = new Queen(Board, p.Color);
+                        Board.PlacePiece(queen, destination);
+                        Pieces.Add(queen);
+                    }
+
+                }
+            }
+
+
+
             if (InCheck(Adversary(CurrentPlayer)))
             {
                 Check = true;
@@ -159,7 +201,6 @@ namespace Chess_Game
                 ChangePlayer();
             }
 
-            Piece p = Board.Piece(destination);
             // Special Move - En Passant
             if (p is Peon && (destination.Line == origin.Line - 2 || destination.Line == origin.Line + 2))
             {

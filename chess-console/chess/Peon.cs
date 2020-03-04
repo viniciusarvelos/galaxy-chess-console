@@ -4,14 +4,18 @@ namespace Chess_Game
 {
     class Peon : Piece
     {
-        public Peon(Board board, Color color) : base(color, board) { }
+        private ChessMatch Match;
+        public Peon(Board board, Color color, ChessMatch match) : base(color, board) 
+        {
+            Match = match;
+        }
 
         public override string ToString()
         {
             return "P";
         }
 
-        private bool EnemyAhead(Position pos) // tests if exists a enemy on the position
+        private bool ExistsEnemy(Position pos) // tests if exists a enemy on the position
         {
             Piece p = Board.Piece(pos);
             return p != null && p.Color != Color;
@@ -40,15 +44,31 @@ namespace Chess_Game
                     mat[pos.Line, pos.Column] = true;
                 }
                 pos.DefineValues(Position.Line - 1, Position.Column - 1);
-                if (Board.ValidPosition(pos) && EnemyAhead(pos))
+                if (Board.ValidPosition(pos) && ExistsEnemy(pos))
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
                 pos.DefineValues(Position.Line - 1, Position.Column + 1);
-                if (Board.ValidPosition(pos) && EnemyAhead(pos))
+                if (Board.ValidPosition(pos) && ExistsEnemy(pos))
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
+
+                // Special Move - En Passant
+                if (Position.Line == 3)
+                {
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if (Board.ValidPosition(left) && ExistsEnemy(left) && Board.Piece(left) == Match.VulnerableEnPassant)
+                    {
+                        mat[left.Line - 1, left.Column] = true;
+                    }
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(right) && ExistsEnemy(right) && Board.Piece(right) == Match.VulnerableEnPassant)
+                    {
+                        mat[right.Line - 1, right.Column] = true;
+                    }
+                }
+
             }
             else
             {
@@ -63,14 +83,29 @@ namespace Chess_Game
                     mat[pos.Line, pos.Column] = true;
                 }
                 pos.DefineValues(Position.Line + 1, Position.Column - 1);
-                if (Board.ValidPosition(pos) && EnemyAhead(pos))
+                if (Board.ValidPosition(pos) && ExistsEnemy(pos))
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
                 pos.DefineValues(Position.Line + 1, Position.Column + 1);
-                if (Board.ValidPosition(pos) && EnemyAhead(pos))
+                if (Board.ValidPosition(pos) && ExistsEnemy(pos))
                 {
                     mat[pos.Line, pos.Column] = true;
+                }
+
+                // Special Move - En Passant
+                if (Position.Line == 4)
+                {
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if (Board.ValidPosition(left) && ExistsEnemy(left) && Board.Piece(left) == Match.VulnerableEnPassant)
+                    {
+                        mat[left.Line + 1, left.Column] = true;
+                    }
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(right) && ExistsEnemy(right) && Board.Piece(right) == Match.VulnerableEnPassant)
+                    {
+                        mat[right.Line + 1, right.Column] = true;
+                    }
                 }
             }
 

@@ -13,6 +13,7 @@ namespace Chess_Game
         private HashSet<Piece> Pieces;
         private HashSet<Piece> Captured;
         public bool Check { get; private set; }
+        public Piece VulnerableEnPassant { get; private set; }
 
         public ChessMatch()
         {
@@ -21,6 +22,7 @@ namespace Chess_Game
             CurrentPlayer = Color.Rebel;
             Finished = false;
             Check = false;
+            VulnerableEnPassant = null;
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
             PlacePieces();
@@ -57,6 +59,25 @@ namespace Chess_Game
                 Board.PlacePiece(r, rookDestination);
             }
 
+            // Special Move - En Passant
+            if (p is Peon)
+            {
+                if (origin.Column != destination.Column && capturedPiece == null)
+                {
+                    Position posP;
+                    if (p.Color == Color.Rebel)
+                    {
+                        posP = new Position(destination.Line + 1, destination.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(destination.Line - 1, destination.Column);
+                    }
+                    capturedPiece = Board.RemovePiece(posP);
+                    Captured.Add(capturedPiece);
+                }
+            }
+
             return capturedPiece;
         }
 
@@ -89,6 +110,25 @@ namespace Chess_Game
                 r.DecreaseMoveQuantity();
                 Board.PlacePiece(r, rookOrigin);
             }
+
+            // Special Move - En Passant
+            if (p is Peon)
+            {
+                if (origin.Column != destination.Column && capturedPiece == VulnerableEnPassant)
+                {
+                    Piece peon = Board.RemovePiece(destination);
+                    Position posP;
+                    if (p.Color == Color.Rebel)
+                    {
+                        posP = new Position(3, destination.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(4, destination.Column);
+                    }
+                    Board.PlacePiece(peon, posP);
+                }
+            }
         }
 
         public void TurnPlay(Position origin, Position destination) // execute move and pass turn
@@ -117,6 +157,17 @@ namespace Chess_Game
             {
                 Turn++;
                 ChangePlayer();
+            }
+
+            Piece p = Board.Piece(destination);
+            // Special Move - En Passant
+            if (p is Peon && (destination.Line == origin.Line - 2 || destination.Line == origin.Line + 2))
+            {
+                VulnerableEnPassant = p;
+            }
+            else
+            {
+                VulnerableEnPassant = null;
             }
         }
 
@@ -273,14 +324,14 @@ namespace Chess_Game
             PlaceNewPiece('g', 1, new Knight(Board, Color.Rebel));
             PlaceNewPiece('h', 1, new Rook(Board, Color.Rebel));
 
-            PlaceNewPiece('a', 2, new Peon(Board, Color.Rebel));
-            PlaceNewPiece('b', 2, new Peon(Board, Color.Rebel));
-            PlaceNewPiece('c', 2, new Peon(Board, Color.Rebel));
-            PlaceNewPiece('d', 2, new Peon(Board, Color.Rebel));
-            PlaceNewPiece('e', 2, new Peon(Board, Color.Rebel));
-            PlaceNewPiece('f', 2, new Peon(Board, Color.Rebel));
-            PlaceNewPiece('g', 2, new Peon(Board, Color.Rebel));
-            PlaceNewPiece('h', 2, new Peon(Board, Color.Rebel));
+            PlaceNewPiece('a', 2, new Peon(Board, Color.Rebel, this));
+            PlaceNewPiece('b', 2, new Peon(Board, Color.Rebel, this));
+            PlaceNewPiece('c', 2, new Peon(Board, Color.Rebel, this));
+            PlaceNewPiece('d', 2, new Peon(Board, Color.Rebel, this));
+            PlaceNewPiece('e', 2, new Peon(Board, Color.Rebel, this));
+            PlaceNewPiece('f', 2, new Peon(Board, Color.Rebel, this));
+            PlaceNewPiece('g', 2, new Peon(Board, Color.Rebel, this));
+            PlaceNewPiece('h', 2, new Peon(Board, Color.Rebel, this));
 
             PlaceNewPiece('a', 8, new Rook(Board, Color.Empire));
             PlaceNewPiece('b', 8, new Knight(Board, Color.Empire));
@@ -291,14 +342,14 @@ namespace Chess_Game
             PlaceNewPiece('g', 8, new Knight(Board, Color.Empire));
             PlaceNewPiece('h', 8, new Rook(Board, Color.Empire));
 
-            PlaceNewPiece('a', 7, new Peon(Board, Color.Empire));
-            PlaceNewPiece('b', 7, new Peon(Board, Color.Empire));
-            PlaceNewPiece('c', 7, new Peon(Board, Color.Empire));
-            PlaceNewPiece('d', 7, new Peon(Board, Color.Empire));
-            PlaceNewPiece('e', 7, new Peon(Board, Color.Empire));
-            PlaceNewPiece('f', 7, new Peon(Board, Color.Empire));
-            PlaceNewPiece('g', 7, new Peon(Board, Color.Empire));
-            PlaceNewPiece('h', 7, new Peon(Board, Color.Empire));
+            PlaceNewPiece('a', 7, new Peon(Board, Color.Empire, this));
+            PlaceNewPiece('b', 7, new Peon(Board, Color.Empire, this));
+            PlaceNewPiece('c', 7, new Peon(Board, Color.Empire, this));
+            PlaceNewPiece('d', 7, new Peon(Board, Color.Empire, this));
+            PlaceNewPiece('e', 7, new Peon(Board, Color.Empire, this));
+            PlaceNewPiece('f', 7, new Peon(Board, Color.Empire, this));
+            PlaceNewPiece('g', 7, new Peon(Board, Color.Empire, this));
+            PlaceNewPiece('h', 7, new Peon(Board, Color.Empire, this));
         }
     }
 }

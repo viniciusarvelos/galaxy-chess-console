@@ -36,6 +36,27 @@ namespace Chess_Game
             {
                 Captured.Add(capturedPiece);
             }
+
+            // Special Move - Small Castling
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                Position rookOrigin = new Position(origin.Line, origin.Column + 3);
+                Position rookDestination = new Position(origin.Line, origin.Column + 1);
+                Piece r = Board.RemovePiece(rookOrigin);
+                r.IncreaseMoveQuantity();
+                Board.PlacePiece(r, rookDestination);
+            }
+
+            // Special Move - Big Castling
+            if (p is King && destination.Column == origin.Column - 2)
+            {
+                Position rookOrigin = new Position(origin.Line, origin.Column - 4);
+                Position rookDestination = new Position(origin.Line, origin.Column - 1);
+                Piece r = Board.RemovePiece(rookOrigin);
+                r.IncreaseMoveQuantity();
+                Board.PlacePiece(r, rookDestination);
+            }
+
             return capturedPiece;
         }
 
@@ -49,6 +70,25 @@ namespace Chess_Game
                 Captured.Remove(capturedPiece);
             }
             Board.PlacePiece(p, origin);
+
+            // Special Move - Small Castling
+            if (p is King && destination.Column == origin.Column + 2)
+            {
+                Position rookOrigin = new Position(origin.Line, origin.Column + 3);
+                Position rookDestination = new Position(origin.Line, origin.Column + 1);
+                Piece r = Board.RemovePiece(rookDestination);
+                r.DecreaseMoveQuantity();
+                Board.PlacePiece(r, rookOrigin);
+            }
+            // Special Move - Big Castling
+            if (p is King && destination.Column == origin.Column - 2)
+            {
+                Position rookOrigin = new Position(origin.Line, origin.Column - 4);
+                Position rookDestination = new Position(origin.Line, origin.Column - 1);
+                Piece r = Board.RemovePiece(rookDestination);
+                r.DecreaseMoveQuantity();
+                Board.PlacePiece(r, rookOrigin);
+            }
         }
 
         public void TurnPlay(Position origin, Position destination) // execute move and pass turn
@@ -228,7 +268,7 @@ namespace Chess_Game
             PlaceNewPiece('b', 1, new Knight(Board, Color.Rebel));
             PlaceNewPiece('c', 1, new Bishop(Board, Color.Rebel));
             PlaceNewPiece('d', 1, new Queen(Board, Color.Rebel));
-            PlaceNewPiece('e', 1, new King(Board, Color.Rebel));
+            PlaceNewPiece('e', 1, new King(Board, Color.Rebel, this));
             PlaceNewPiece('f', 1, new Bishop(Board, Color.Rebel));
             PlaceNewPiece('g', 1, new Knight(Board, Color.Rebel));
             PlaceNewPiece('h', 1, new Rook(Board, Color.Rebel));
@@ -246,7 +286,7 @@ namespace Chess_Game
             PlaceNewPiece('b', 8, new Knight(Board, Color.Empire));
             PlaceNewPiece('c', 8, new Bishop(Board, Color.Empire));
             PlaceNewPiece('d', 8, new Queen(Board, Color.Empire));
-            PlaceNewPiece('e', 8, new King(Board, Color.Empire));
+            PlaceNewPiece('e', 8, new King(Board, Color.Empire, this));
             PlaceNewPiece('f', 8, new Bishop(Board, Color.Empire));
             PlaceNewPiece('g', 8, new Knight(Board, Color.Empire));
             PlaceNewPiece('h', 8, new Rook(Board, Color.Empire));

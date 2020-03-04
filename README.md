@@ -1,4 +1,4 @@
-GALAXY CHESS CONSOLE
+## **GALAXY CHESS CONSOLE**
 
 A galaxy themed chess game developed in C# with a console interface
 
